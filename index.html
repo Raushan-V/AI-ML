@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Car Price Prediction</h1>
+        <form action="/predict" method="POST">
+            <label for="company">Company:</label>
+            <select name="company" id="company" required>
+                {% for company in companies %}
+                <option value="{{ company }}">{{ company }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="car_models">Car Model:</label>
+            <select name="car_models" id="car_models" required>
+                {% for model in car_models %}
+                <option value="{{ model }}">{{ model }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="year">Year:</label>
+            <select name="year" id="year" required>
+                {% for y in years %}
+                <option value="{{ y }}">{{ y }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="fuel_type">Fuel Type:</label>
+            <select name="fuel_type" id="fuel_type" required>
+                {% for fuel in fuel_types %}
+                <option value="{{ fuel }}">{{ fuel }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="kilo_driven">Kilometers Driven:</label>
+            <input type="number" name="kilo_driven" id="kilo_driven" required><br><br>
+
+            <button type="submit">Predict Price</button>
+        </form>
+
+        {% if prediction %}
+        <h2>Predicted Price: {{ prediction }}</h2>
+        {% endif %}
+    </div>
+</body>
+
+</html>
