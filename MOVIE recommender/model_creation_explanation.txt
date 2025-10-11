@@ -2,38 +2,38 @@ Explanation of How the Movie Recommender Model Was Created
 
 This document outlines the step-by-step process used to build a content-based movie recommender system based on the TMDB 5000 dataset. The model recommends movies similar to a given movie by analyzing textual features such as overview, genres, keywords, cast, and crew.
 
-1. **Data Loading and Merging**:
+1. Data Loading and Merging:
    - Loaded two CSV files: 'tmdb_5000_movies.csv' (containing movie details) and 'tmdb_5000_credits.csv' (containing cast and crew information).
    - Merged the datasets on the 'title' column to combine relevant information into a single DataFrame.
 
-2. **Data Preprocessing**:
+2. Data Preprocessing:
    - Selected key columns: 'movie_id', 'title', 'overview', 'genres', 'keywords', 'cast', 'crew'.
    - Handled missing values by dropping rows with null values.
    - Checked for and removed duplicate entries.
 
-3. **Feature Extraction and Transformation**:
+3. Feature Extraction and Transformation:
    - Converted JSON-like string representations of 'genres' and 'keywords' into lists of names using a helper function.
    - For 'cast', extracted the top 3 actors' names.
    - For 'crew', extracted the director's name.
    - Split the 'overview' text into individual words.
    - Removed spaces from names in 'genres', 'keywords', 'cast', and 'crew' to treat multi-word entities as single tokens (e.g., "Science Fiction" becomes "ScienceFiction").
 
-4. **Tag Creation**:
+4. Tag Creation:
    - Created a new column 'tags' by concatenating lists from 'overview', 'genres', 'keywords', 'cast', and 'crew'.
    - This 'tags' column represents the combined textual features for each movie.
 
-5. **Text Processing**:
+5. Text Processing:
    - Joined the 'tags' list into a single string and converted to lowercase.
    - Applied stemming using the Porter Stemmer from NLTK to reduce words to their root forms (e.g., "running" to "run").
 
-6. **Vectorization**:
+6. Vectorization:
    - Used CountVectorizer from scikit-learn to convert the 'tags' into numerical vectors (bag-of-words model).
    - Set maximum features to 5000 and removed English stop words to focus on meaningful terms.
 
-7. **Similarity Calculation**:
+7. Similarity Calculation:
    - Computed pairwise cosine similarity between all movie vectors to measure how similar movies are based on their tags.
 
-8. **Recommendation Function**:
+8. Recommendation Function:
    - Defined a 'recommend' function that takes a movie title as input.
    - Finds the index of the input movie in the DataFrame.
    - Retrieves the similarity scores for that movie.
